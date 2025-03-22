@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cultura FinOps: Otimização de Custos AWS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/black.min.css" id="theme">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .reveal section img {
+            border: none;
+            box-shadow: none;
+        }
+        .custom-title {
+            color: #FF9900;
+            font-size: 2.5em;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .aws-logo {
+            width: 200px;
+            margin: 20px auto;
+        }
+        .theme-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            padding: 10px;
+            background: #FF9900;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .theme-button:hover {
+            background: #e88a00;
+        }
+        .theme-button i {
+            font-size: 20px;
+        }
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin: 50px 20px;
+            position: relative;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 4px;
+            background: #FF9900;
+            top: 30px;
+            left: 0;
+            z-index: 1;
+        }
+
+        .timeline-item {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            width: 200px;
+        }
+
+        .timeline-dot {
+            width: 20px;
+            height: 20px;
+            background: #FF9900;
+            border-radius: 50%;
+            margin: 20px auto;
+        }
+
+        .timeline-year {
+            font-weight: bold;
+            color: #FF9900;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .timeline-content {
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-button" onclick="toggleTheme()" aria-label="Alternar tema">
+        <i class="fas fa-sun"></i>
+    </button>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Slide de Título -->
+            <section>
+                <h1 class="custom-title">Cultura FinOps</h1>
+                <h3>Otimização de Custos e Melhores Práticas AWS</h3>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/AmazonWebservices_Logo.svg/1280px-AmazonWebservices_Logo.svg.png" alt="Logo AWS" class="aws-logo">
+            </section>
+
+            <!-- Introdução -->
+            <section>
+                <h2>O que é FinOps?</h2>
+                <div style="
+                    margin: 40px 0;
+                    padding-left: 20px;
+                    border-left: 4px solid #00ffcc;
+                    font-style: italic;
+                    font-size: 0.8em;
+                    line-height: 1.6;
+                ">
+                    "FinOps é um framework operacional e prática cultural que maximiza o valor comercial da nuvem e tecnologia, permite a tomada de decisões orientada por dados em tempo hábil e cria responsabilidade financeira através da colaboração entre as equipes de engenharia, finanças e negócios."
+                </div>
+                <div style="
+                    text-align: left;
+                    font-size: 0.9em;
+                    color: #666;
+                ">
+                    FinOps Foundation <a href="#" style="color: #666; text-decoration: underline;">Technical Advisory Council</a><br>
+                    Atualizado: Janeiro 2025
+                </div>
+            </section>
+
+            <!-- História do FinOps -->
+            <section>
+                <h2>História do FinOps</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-year">2019</div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            Surgimento do termo com J.R. Storment e Mike Fuller
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2020</div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            Fundação da FinOps Foundation
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2021</div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            FinOps Foundation se junta à Linux Foundation
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2023</div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            Mais de 5500 empresas membros em todo o mundo
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Leitura recomendada</h2>
+                <img src="finops-book.png" />
+            </section>
+        
+
+            <!-- Gerenciamento de Custos AWS -->
+            <section>
+                <!-- Slide Principal -->
+                <section>
+                    <h2>Gerenciamento de Custos AWS</h2>
+                    <ul>
+                        <li>AWS Cost Explorer</li>
+                        <li>AWS Budgets</li>
+                        <li>Relatório de Custos e Uso da AWS</li>
+                        <li>Instâncias Reservadas e Planos de Economia</li>
+                    </ul>
+                </section>
+
+                <!-- Subslide Cost Explorer -->
+                <section>
+                    <h3>AWS Cost Explorer</h3>
+                    <img src="cost-explorer.png" 
+                         alt="AWS Cost Explorer Interface" 
+                         style="width: 80%; height: auto;">
+                </section>
+
+                <!-- Subslide AWS Budgets -->
+                <section>
+                    <h3>AWS Budgets</h3>
+                    <img src="aws-budgets.png" 
+                         alt="AWS Budgets Dashboard" 
+                         style="width: 80%; height: auto;">
+                </section>
+
+                <!-- Subslide Relatório de Custos -->
+                <section>
+                    <h3>Relatório de Custos e Uso</h3>
+                    <img src="relatorio-custos-usos.png" 
+                         alt="AWS Cost and Usage Report" 
+                         style="width: 80%; height: auto;">
+                </section>
+
+                <section>
+                    <h4>Instâncias Reservadas e Savings Plans</h4>
+                    <img src="saving-plans.png" 
+                         alt="AWS Savings Plans" 
+                         style="width: 100%; height: auto;">
+                </section>
+            </section>
+
+            <section>
+                <h2>Criando uma instancia EC2</h2>
+                <div class="video-container" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                    <iframe 
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                        src="https://www.youtube.com/embed/86Tuwtn3zp0"
+                        title="Calculadora de Preços AWS"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </section>
+
+             <section>
+                <section>
+                    <h2>Calculadora de Preços AWS</h2>
+                    <ul>
+                        <li>Ferramenta gratuita para estimar custos AWS</li>
+                        <li>Crie estimativas de custos para seus casos de uso</li>
+                        <li>Compare diferentes configurações de serviços</li>
+                        <li>Exporte estimativas para compartilhamento</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Custo RDS Multi-AZ</h3>
+                    <img src="rds-multi-az.png" 
+                         alt="RDS Multi-AZ" 
+                         style="width: 100%; height: auto;">
+                </section>
+                <section>
+                    <h3>Custo RDS Single-AZ</h3>
+                    <img src="rds-single-az.png" 
+                         alt="RDS Single-AZ" 
+                         style="width: 100%; height: auto;">
+                </section>
+            </section>
+
+            <!-- Melhores Práticas -->
+            <section>
+                <h2>Melhores Práticas de Otimização de Custos</h2>
+                <ul>
+                    <li>Dimensionamento correto de instâncias</li>
+                    <li>Utilização de auto-scaling</li>
+                    <li>Implementação de tags de alocação de custos</li>
+                    <li>Revisões e otimizações regulares de custos</li>
+                </ul>
+            </section>
+
+            <!-- Ferramentas e Recursos -->
+            <section>
+                <h2>Ferramentas e Recursos</h2>
+                <ul>
+                    <li>AWS Cost Explorer</li>
+                    <li>Cloud checkr</li>
+                    <li>AWS Budgets</li>
+                    <li>Métricas do CloudWatch</li>
+                </ul>
+            </section>
+
+            <section>
+                <section>
+                    <h2>Estratégia de Implementação</h2>
+                    <ul>
+                        <li>Comece com a visibilidade de custos</li>
+                        <li>Adicione Tags em recursos</li>
+                        <li>Configure orçamentos e alertas</li>
+                        <li>Implemente práticas de otimização de custos</li>
+                        <li>Faça revisões e ajustes regulares</li>
+                    </ul>
+                </section>
+
+                <!-- Comparativo de Custos: Computação -->
+                <section>
+                    <h3>Comparativo de Custos: EC2</h3>
+                    <table style="margin: 0 auto; font-size: 0.8em;">
+                        <tr>
+                            <th style="padding: 10px;">Instância</th>
+                            <th style="padding: 10px;">São Paulo</th>
+                            <th style="padding: 10px;">N. Virginia</th>
+                            <th style="padding: 10px;">Diferença</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;">t3.micro</td>
+                            <td style="padding: 10px;">$0.0208/hora</td>
+                            <td style="padding: 10px;">$0.0104/hora</td>
+                            <td style="padding: 10px; color: #FF9900;">+100%</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;">t3.small</td>
+                            <td style="padding: 10px;">$0.0416/hora</td>
+                            <td style="padding: 10px;">$0.0208/hora</td>
+                            <td style="padding: 10px; color: #FF9900;">+100%</td>
+                        </tr>
+                    </table>
+                </section>
+
+                <!-- Comparativo de Custos: Banco de Dados -->
+                <section>
+                    <h3>Comparativo de Custos: RDS</h3>
+                    <table style="margin: 0 auto; font-size: 0.8em;">
+                        <tr>
+                            <th style="padding: 10px;">Instância</th>
+                            <th style="padding: 10px;">São Paulo</th>
+                            <th style="padding: 10px;">N. Virginia</th>
+                            <th style="padding: 10px;">Diferença</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;">db.t3.micro</td>
+                            <td style="padding: 10px;">$0.034/hora</td>
+                            <td style="padding: 10px;">$0.017/hora</td>
+                            <td style="padding: 10px; color: #FF9900;">+100%</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;">db.t3.small</td>
+                            <td style="padding: 10px;">$0.068/hora</td>
+                            <td style="padding: 10px;">$0.034/hora</td>
+                            <td style="padding: 10px; color: #FF9900;">+100%</td>
+                        </tr>
+                    </table>
+                </section>
+
+                <!-- Comparativo de Custos: Rede -->
+                <section>
+                    <h3>Comparativo de Custos: Transferência de Dados</h3>
+                    <table style="margin: 0 auto; font-size: 0.8em;">
+                        <tr>
+                            <th style="padding: 10px;">Tipo</th>
+                            <th style="padding: 10px;">São Paulo</th>
+                            <th style="padding: 10px;">N. Virginia</th>
+                            <th style="padding: 10px;">Diferença</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;">Saída Internet</td>
+                            <td style="padding: 10px;">$0.154/GB</td>
+                            <td style="padding: 10px;">$0.09/GB</td>
+                            <td style="padding: 10px; color: #FF9900;">+71%</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;">Entre Regiões</td>
+                            <td style="padding: 10px;">$0.16/GB</td>
+                            <td style="padding: 10px;">$0.02/GB</td>
+                            <td style="padding: 10px; color: #FF9900;">+700%</td>
+                        </tr>
+                    </table>
+                </section>
+
+                <!-- Comparativo de Custos Mensais -->
+                <section>
+                    <h3>Comparativo de Custos Mensais (24/7)</h3>
+                    <table style="margin: 0 auto; font-size: 0.8em;">
+                        <tr>
+                            <th style="padding: 10px;">Recurso</th>
+                            <th style="padding: 10px;">São Paulo</th>
+                            <th style="padding: 10px;">N. Virginia</th>
+                            <th style="padding: 10px;">Economia Mensal</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;">EC2 t3.micro</td>
+                            <td style="padding: 10px;">$15.18</td>
+                            <td style="padding: 10px;">$7.59</td>
+                            <td style="padding: 10px; color: #FF9900;">$7.59</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;">RDS db.t3.micro</td>
+                            <td style="padding: 10px;">$24.82</td>
+                            <td style="padding: 10px;">$12.41</td>
+                            <td style="padding: 10px; color: #FF9900;">$12.41</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;">100GB Tráfego/mês</td>
+                            <td style="padding: 10px;">$15.40</td>
+                            <td style="padding: 10px;">$9.00</td>
+                            <td style="padding: 10px; color: #FF9900;">$6.40</td>
+                        </tr>
+                        <tr style="font-weight: bold; background-color: rgba(255,153,0,0.1);">
+                            <td style="padding: 10px;">Total Mensal</td>
+                            <td style="padding: 10px;">$55.40</td>
+                            <td style="padding: 10px;">$29.00</td>
+                            <td style="padding: 10px; color: #FF9900;">$26.40</td>
+                        </tr>
+                    </table>
+                    <div style="font-size: 0.8em; margin-top: 20px;">
+                        <p>Cálculo baseado em: 730 horas/mês (24/7)</p>
+                        <p>Economia anual potencial: <span style="color: #FF9900; font-weight: bold;">$316.80</span></p>
+                    </div>
+                </section>
+
+                <!-- Dicas de Otimização -->
+                <section>
+                    <h3>Dicas de Otimização Regional</h3>
+                    <ul>
+                        <li>Considere latência vs. custo para produção</li>
+                        <li>Planeje transferências de dados entre regiões</li>
+                        <li>Use CloudFront para distribuição de conteúdo</li>
+                        <li>Considere Reserved Instances em regiões mais caras</li>
+                    </ul>
+                </section>
+            </section>
+
+            <!-- Mercado de Trabalho FinOps -->
+            <section>
+                <h2>Mercado de Trabalho: DevOps com FinOps</h2>
+                <div style="display: flex; justify-content: space-around; margin-top: 30px;">
+                    <div style="width: 60%;">
+                        <table style="width: 100%; font-size: 0.8em;">
+                            <tr style="background-color: rgba(255,153,0,0.1);">
+                                <th style="padding: 12px;">Nível</th>
+                                <th style="padding: 12px;">Faixa Salarial (R$)</th>
+                                <th style="padding: 12px;">Demanda</th>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px;">Júnior</td>
+                                <td style="padding: 12px;">5.000 - 8.000</td>
+                                <td style="padding: 12px;">Alta ↑</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px;">Pleno</td>
+                                <td style="padding: 12px;">8.000 - 15.000</td>
+                                <td style="padding: 12px;">Muito Alta ↑↑</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px;">Sênior</td>
+                                <td style="padding: 12px;">15.000 - 25.000</td>
+                                <td style="padding: 12px;">Extrema ↑↑↑</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px;">Especialista</td>
+                                <td style="padding: 12px;">> 25.000</td>
+                                <td style="padding: 12px;">Muito Alta ↑↑</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px; font-size: 0.9em;">
+                    <h3>Habilidades Mais Valorizadas:</h3>
+                    <ul style="list-style: none; display: flex; justify-content: center; gap: 20px;">
+                        <li style="background: rgba(255,153,0,0.1); padding: 10px; border-radius: 5px;">AWS</li>
+                        <li style="background: rgba(255,153,0,0.1); padding: 10px; border-radius: 5px;">Kubernetes</li>
+                        <li style="background: rgba(255,153,0,0.1); padding: 10px; border-radius: 5px;">Terraform</li>
+                        <li style="background: rgba(255,153,0,0.1); padding: 10px; border-radius: 5px;">CI/CD</li>
+                        <li style="background: rgba(255,153,0,0.1); padding: 10px; border-radius: 5px;">FinOps</li>
+                    </ul>
+                </div>
+
+                <div style="margin-top: 30px; font-size: 0.8em; color: #666;">
+                    <p>* Dados aproximados do mercado brasileiro em 2024</p>
+                    <p>* Valores podem variar por região e empresa</p>
+                </div>
+            </section>
+
+            <!-- Perguntas e Respostas -->
+            <section>
+                <h2>Dúvidas?</h2>
+                <p>Obrigado pela atenção!</p>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            transition: 'slide',
+            controls: true,
+            progress: true,
+            center: true,
+            plugins: []
+        });
+
+        function toggleTheme() {
+            const themeLink = document.getElementById('theme');
+            const themeButton = document.querySelector('.theme-button i');
+            const currentTheme = themeLink.getAttribute('href');
+            
+            if (currentTheme.includes('black')) {
+                themeLink.setAttribute('href', 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/white.min.css');
+                themeButton.className = 'fas fa-moon';
+            } else {
+                themeLink.setAttribute('href', 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/black.min.css');
+                themeButton.className = 'fas fa-sun';
+            }
+        }
+    </script>
+</body>
+</html> 
